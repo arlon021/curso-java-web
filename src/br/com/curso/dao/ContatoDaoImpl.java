@@ -38,6 +38,8 @@ public class ContatoDaoImpl implements IContatoDao {
 
 		} catch (Exception e) {
 			e.getMessage();
+			this.factory.getTransaction().rollback();
+			
 		} finally {
 			factory.close();
 		}
@@ -52,7 +54,7 @@ public class ContatoDaoImpl implements IContatoDao {
 
 		} catch (Exception e) {
 			e.getMessage();
-
+			this.factory.getTransaction().rollback();
 		} finally {
 			factory.close();
 		}
@@ -73,7 +75,7 @@ public class ContatoDaoImpl implements IContatoDao {
 
 		} catch (Exception e) {
 			e.getMessage();
-
+			this.factory.getTransaction().rollback();
 		} finally {
 			factory.close();
 		}
@@ -91,6 +93,7 @@ public class ContatoDaoImpl implements IContatoDao {
 
 		} catch (Exception e) {
 			e.getMessage();
+			this.factory.getTransaction().rollback();
 		} finally {
 			factory.close();
 		}
@@ -110,6 +113,7 @@ public class ContatoDaoImpl implements IContatoDao {
 
 		} catch (Exception e) {
 			e.getMessage();
+			this.factory.getTransaction().rollback();
 		} finally {
 			factory.close();
 		}

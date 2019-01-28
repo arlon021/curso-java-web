@@ -41,6 +41,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
 		} catch (Exception e) {
 			e.getMessage();
+			this.factory.getTransaction().rollback();
 		} finally {
 			factory.close();
 		}
@@ -68,7 +69,8 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
 		} catch (Exception e) {
 			e.getMessage();
-
+			this.factory.getTransaction().rollback();
+			
 		} finally {
 			factory.close();
 		}
@@ -89,7 +91,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
 		} catch (Exception e) {
 			e.getMessage();
-
+			this.factory.getTransaction().rollback();
 		} finally {
 			factory.close();
 		}
@@ -107,6 +109,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
 		} catch (Exception e) {
 			e.getMessage();
+			this.factory.getTransaction().rollback();
 		} finally {
 			factory.close();
 		}
@@ -125,6 +128,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
 		} catch (Exception e) {
 			e.getMessage();
+			this.factory.getTransaction().rollback();
 		} finally {
 			factory.close();
 		}
@@ -150,6 +154,10 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 					
 		} catch (Exception e) {
 			e.getMessage();
+			this.factory.getTransaction().rollback();
+			
+		}finally {
+			this.factory.close();
 		}
 		
 		return usuario;
