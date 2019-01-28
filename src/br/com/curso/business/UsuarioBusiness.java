@@ -43,8 +43,4 @@ public class UsuarioBusiness {
 	public Usuario ativarDesativar (Long id) throws Exception {
 		return this.dao.ativarDesativar(id);
 	}
-	
-	public Usuario findByLogin(String login) throws Exception{
-		return this.dao.findByLogin(login);
-	}
 }
