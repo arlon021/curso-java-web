@@ -163,4 +163,26 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 		return usuario;
 	}
 
+	public Usuario findByLogin(String nome) {
+		Usuario usuario = new Usuario();
+		this.factory = emf.createEntityManager();
+		
+		try {
+			factory.getTransaction().begin();
+			usuario = this.factory.createQuery("SELECT u FROM Usuario u WHERE u.nome = :nome ", Usuario.class)
+					.setParameter("nome", nome ).getSingleResult();
+
+			return usuario;
+
+		} catch (Exception e) {
+			e.getMessage();
+			this.factory.getTransaction().rollback();
+			
+		} finally {
+			factory.close();
+		}
+		
+		return null;
+	}
+
 }
