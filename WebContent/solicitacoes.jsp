@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@page import="br.com.curso.dao.SolicitacaoDaoImpl"%>
+<%@page import="br.com.curso.business.*"%>
 <%@page import="java.util.Collection"%>
 <%@page import="java.util.List"%>
 <%@page import="br.com.curso.model.Solicitacao" %>
@@ -18,8 +19,12 @@
 <body>
 	
 	<%
+		SolicitacaoBusiness businnesSolicitacao = new SolicitacaoBusiness();
+		UsuarioBusiness business = new UsuarioBusiness();
 		String usuario = (String) session.getAttribute("user");
+		Usuario usuarioSessao = business.findByLogin(usuario);
 	%>
+	
 	
 	
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -30,7 +35,9 @@
 					<a class="navbar-brand" href="home.jsp">Curso Java Web 2019</a>
 						<ul class="nav navbar-nav">
 						<li><a href="contatoController?action=list">Contatos</a></li>
-						<li><a href="usuarioController?action=list">Usuários</a></li>
+						<c:if test="<%= usuarioSessao.isAdministrador() %>">
+							<li><a href="usuarioController?action=list">Usuários</a></li>						
+						</c:if>
 						<li><a href="solicitacaoController?action=list">Solicitação</a></li>
 					</ul>
 				</div>
@@ -52,8 +59,7 @@
 
 		<div align="center">
 			<%
-				SolicitacaoDaoImpl dao = new SolicitacaoDaoImpl();
-				Collection<Solicitacao> solicitacoes = dao.listAll();
+				Collection<Solicitacao> solicitacoes = businnesSolicitacao.listAll();
 			%>
 	
 		</div>

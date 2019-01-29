@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="br.com.curso.business.UsuarioBusiness"%>
 <%@page import="java.util.Collection"%>
 <%@page import="java.util.List"%>
 <%@page import="br.com.curso.model.Usuario" %>
@@ -17,7 +18,9 @@
 <body>
 	
 	<%
+		UsuarioBusiness business = new UsuarioBusiness();
 		String usuario = (String) session.getAttribute("user");
+		Usuario usuarioSessao = business.findByLogin(usuario);
 	%>
 	
 	
@@ -29,7 +32,11 @@
 					<a class="navbar-brand" href="home.jsp">Curso Java Web 2019</a>
 					<ul class="nav navbar-nav">
 						<li><a href="contatoController?action=list">Contatos</a></li>
-						<li><a href="usuarioController?action=list">Usuários</a></li>
+						
+						<c:if test="<%= usuarioSessao.isAdministrador() %>">
+							<li><a href="usuarioController?action=list">Usuários</a></li>						
+						</c:if>
+						
 						<li><a href="solicitacaoController?action=list">Solicitação</a></li>
 					</ul>
 				</div>
@@ -51,8 +58,7 @@
 
 		<div align="center">
 			<%
-				UsuarioDaoImpl dao = new UsuarioDaoImpl();
-				Collection<Usuario> usuarios = dao.listAll();
+				Collection<Usuario> usuarios = business.listAll();
 			%>
 	
 		</div>

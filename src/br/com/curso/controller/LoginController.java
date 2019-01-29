@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -54,7 +55,8 @@ public class LoginController extends HttpServlet {
             if (user != null) {
             	if(user.isAtivo()) {            		
             		request.getSession().setAttribute("user", user.getNome());
-            		response.sendRedirect(request.getContextPath() + "/contatoController?action=list");
+            		RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
+            		rd.forward(request, response);
             		return;
             	}else {
             		erro.put("inativo", "Usuário está desativado");

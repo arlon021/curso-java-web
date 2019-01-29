@@ -43,12 +43,13 @@
 			<version>5.1.46</version>
 		</dependency>
 
-		<!--tiles-jsp -->
+		<!-- postgresql -->
 		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-jsp</artifactId>
-			<version>3.0.7</version>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.5</version>
 		</dependency>
+
 
 
 

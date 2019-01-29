@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+<%@page import="br.com.curso.business.*"%>
 <%@page import="java.util.Collection"%>
 <%@page import="java.util.List"%>
 <%@page import="br.com.curso.model.Contato" %>
 <%@page import="br.com.curso.model.Usuario" %>
-<%@page import="br.com.curso.dao.ContatoDaoImpl" %>
+<%@page import="br.com.curso.dao.*" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html lang="pt-br">
 <head>
@@ -18,8 +19,12 @@
 <body>
 	
 	<%
+		UsuarioBusiness businessUsuario = new UsuarioBusiness();
+		ContatoBusiness businessContato = new ContatoBusiness();
 		String usuario = (String) session.getAttribute("user");
+		Usuario usuarioSessao = businessUsuario.findByLogin(usuario);
 	%>
+	
 	
 	
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -30,7 +35,11 @@
 					<a class="navbar-brand" href="home.jsp">Curso Java Web 2019</a>
 						<ul class="nav navbar-nav">
 						<li><a href="contatoController?action=list">Contatos</a></li>
-						<li><a href="usuarioController?action=list">Usuários</a></li>
+						
+						<c:if test="<%= usuarioSessao.isAdministrador() %>">
+							<li><a href="usuarioController?action=list">Usuários</a></li>						
+						</c:if>
+						
 						<li><a href="solicitacaoController?action=list">Solicitação</a></li>
 					</ul>
 				</div>
@@ -52,8 +61,8 @@
 
 		<div align="center">
 			<%
-				ContatoDaoImpl dao = new ContatoDaoImpl();
-				Collection<Contato> contatos = dao.listAll();
+				
+				Collection<Contato> contatos = businessContato.listAll();
 			%>
 	
 		</div>

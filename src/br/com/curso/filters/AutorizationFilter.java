@@ -19,7 +19,7 @@ import br.com.curso.model.Usuario;
 /**
  * Servlet Filter implementation class AutorizationFilter
  */
-@WebFilter(filterName="/autorizationFilter", urlPatterns = {"/usuarioController"})
+//@WebFilter(filterName="/autorizationFilter", urlPatterns = {"/usuarioController"})
 public class AutorizationFilter implements Filter {
 	
 	private UsuarioDaoImpl dao;
@@ -29,10 +29,6 @@ public class AutorizationFilter implements Filter {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		
-		System.out.println("chamando o filtro de autorização");
-		
-		
 		
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
@@ -53,7 +49,6 @@ public class AutorizationFilter implements Filter {
 				rd.forward(httpRequest, httpResponse);
 			}
 		}
-		
 		
 	}
 
