@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.curso.business.SolicitacaoBusiness;
 import br.com.curso.model.Solicitacao;
+import br.com.curso.utils.Constantes;
 
 /**
  * Servlet implementation class Controller
@@ -28,7 +29,7 @@ public class SolicitacaoController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String action = request.getParameter("action");
+		String action = request.getParameter(Constantes.ACTION);
 
 		try {
 			switch (action) {
@@ -50,13 +51,13 @@ public class SolicitacaoController extends HttpServlet {
 	private void ativar_desativar(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, Exception {
 		
 		Solicitacao solicitacao = this.business.ativarDesativar(Long.parseLong(request.getParameter("id")));
-		RequestDispatcher rd = request.getRequestDispatcher("cadastrese.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher(Constantes.CADASTRE_SE);
 		request.setAttribute("solicitacao", solicitacao);
 		rd.forward(request, response);
 	}
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("solicitacoes.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher(Constantes.SOLICITACOES);
 		rd.forward(request, response);
 	}
 
@@ -69,7 +70,7 @@ public class SolicitacaoController extends HttpServlet {
 	 * @throws IOException
 	 */
 	private void novo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("cadastrese.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher(Constantes.CADASTRE_SE);
 		rd.forward(request, response);
 	}
 
@@ -94,14 +95,14 @@ public class SolicitacaoController extends HttpServlet {
 		solicitacao.setNome(nome);
 		solicitacao.setSenha(senha);
 		
-		request.setAttribute("cadastro", " Solicitacao " + nome + " cadastrado com sucesso");			
+		request.setAttribute("cadastro ", Constantes.SOLICITACAO + nome + Constantes.CONTATO_SUCESSO);			
 		
 		try {
 			this.business.save(solicitacao);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		RequestDispatcher rd = request.getRequestDispatcher("cadastrese.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher(Constantes.CADASTRE_SE);
 		rd.forward(request,response);
 
 	}

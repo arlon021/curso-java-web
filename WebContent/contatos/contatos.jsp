@@ -111,7 +111,9 @@
 						<td>
 							<td>
                         		<a href="contatoController?id=${c.id}&action=editar" class="btn btn-primary">Editar</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                        		<a href="contatoController?id=${c.id}&action=delete" class="btn btn-danger">Deletar</a>                     
+                        		<button value="Excluir" onclick="setaDadosModal(${c.id});" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+								 Excluir
+								</button>                   
                     		</td>
 						</td>
 					</tr>
@@ -125,9 +127,41 @@
 				<a href="contatoController?action=novo" class="btn btn-primary">Cadastro</a>
 			</div>
 		</div>
-	<div class="row">
+		
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Excluir Contato</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        Deseja excluir o contato selecionado ?
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <a id="removerContato" class="btn btn-danger">Deletar</a>
+		      </div>
+		    </div>
+		  </div>
+		</div>
 
 	<script src="./dist/js/jquery.min.js"></script>
 	<script src="./dist/js/bootstrap.min.js"></script>
+	
+	<script type="text/javascript">
+	
+	function setaDadosModal(valor) {
+		var remove = 'contatoController?id='+valor+'&action=delete';
+	    document.getElementById('removerContato').href = remove;
+	}
+	
+	
+	
+	</script>
+	
 </body>
 </html>

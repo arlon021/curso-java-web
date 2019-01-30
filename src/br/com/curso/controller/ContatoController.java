@@ -12,12 +12,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.curso.business.ContatoBusiness;
 import br.com.curso.model.Contato;
+import br.com.curso.utils.Constantes;
 
 /**
  * Servlet implementation class Controller
  */
 @WebServlet("/contatoController")
 public class ContatoController extends HttpServlet {
+
+	private static final String ID_USUARIO = "id";
+
+	private static final String TELEFONE_USUARIO = "telefone";
+
+	private static final String EMAIL_USUARIO = "email";
+
+	private static final String NOME_USUARIO = "nome";
 
 	private ContatoBusiness business;
 
@@ -27,34 +36,23 @@ public class ContatoController extends HttpServlet {
 		this.business = new ContatoBusiness();
 	}
 
-	public void init(ServletConfig config) throws ServletException {
-		System.out.println("Iniciando servlet controlador");
-	}
-
-	public void destroy() {
-		System.out.println("Removendo o servlet");
-	}
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String action = request.getParameter("action");
+		String action = request.getParameter(Constantes.ACTION);
 
 		try {
 			switch (action) {
-			case "novo":
+			case Constantes.NOVO:
 				novo(request, response);
 				break;
-			case "delete":
+			case Constantes.DELETE:
 				delete(request, response);
 				break;
-			case "editar":
+			case Constantes.EDITAR:
 				editar(request, response);
 				break;
-			case "list" :
+			case Constantes.LISTAR :
 				list(request, response);
-				break;
-			default:
-//				home(request, response);
 				break;
 			}
 		} catch (Exception ex) {
@@ -62,14 +60,8 @@ public class ContatoController extends HttpServlet {
 		}
 	}
 	
-//	private void home(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
-//		rd.forward(request, response);
-//		
-//	}
-
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/contatos/contatos.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher(Constantes.CONTATOS);
 		rd.forward(request, response);
 		
 	}
@@ -83,7 +75,7 @@ public class ContatoController extends HttpServlet {
 	 * @throws IOException
 	 */
 	private void novo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/contatos/add_contato.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher(Constantes.ADD_CONTATOS);
 		rd.forward(request, response);
 	}
 
@@ -97,10 +89,10 @@ public class ContatoController extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String nome = request.getParameter("nome");
-		String email = request.getParameter("email");
-		String telefone = request.getParameter("telefone");
-		String id = request.getParameter("id");
+		String nome = request.getParameter(NOME_USUARIO);
+		String email = request.getParameter(EMAIL_USUARIO);
+		String telefone = request.getParameter(TELEFONE_USUARIO);
+		String id = request.getParameter(ID_USUARIO);
 		
 			
 		Contato contato = new Contato();
@@ -110,16 +102,16 @@ public class ContatoController extends HttpServlet {
 		
 		if(id != "") {
 			contato.setId(Long.parseLong(id));
-			request.setAttribute("editado", " Contato " + nome + " editado com sucesso");
+			request.setAttribute("editado", Constantes.CONTATO + " " + nome + Constantes.CONTATO_EDITADO);
 		}else {
-			request.setAttribute("cadastro", " Contato " + nome + " cadastrado com sucesso");			
+			request.setAttribute("cadastro", Constantes.CONTATO + " "+ nome + Constantes.CONTATO_SUCESSO);			
 		}
 		try {
 			this.business.save(contato);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		RequestDispatcher rd = request.getRequestDispatcher("/contatos/contatos.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher(Constantes.CONTATOS);
 		rd.forward(request,response);
 
 	}
@@ -133,9 +125,10 @@ public class ContatoController extends HttpServlet {
 	 * @throws NumberFormatException 
 	 */
 	private void delete(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, Exception {
-		this.business.deleteById(Long.parseLong(request.getParameter("id")));
-		RequestDispatcher rd = request.getRequestDispatcher("/contatos/contatos.jsp");
-		request.setAttribute("remover", " Contato removido com sucesso");
+		
+		this.business.deleteById(Long.parseLong(request.getParameter(ID_USUARIO)));
+		RequestDispatcher rd = request.getRequestDispatcher(Constantes.CONTATOS);
+		request.setAttribute("remover", Constantes.CONTATO + Constantes.CONTATO_REMOVIDO);
 		rd.forward(request, response);
 
 	}
@@ -150,8 +143,8 @@ public class ContatoController extends HttpServlet {
 	 */
 	private void editar(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, Exception {
 
-		Contato contato = this.business.findById(Long.parseLong(request.getParameter("id")));
-		RequestDispatcher rd = request.getRequestDispatcher("/contatos/add_contato.jsp");
+		Contato contato = this.business.findById(Long.parseLong(request.getParameter(ID_USUARIO)));
+		RequestDispatcher rd = request.getRequestDispatcher(Constantes.ADD_CONTATOS);
 		request.setAttribute("contato", contato);
 		rd.forward(request, response);
 	}

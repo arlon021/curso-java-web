@@ -13,12 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.curso.dao.UsuarioDaoImpl;
 import br.com.curso.model.Usuario;
+import br.com.curso.utils.Constantes;
 
 /**
  * Servlet implementation class LoginController
  */
 @WebServlet("/loginController")
 public class LoginController extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
 	private UsuarioDaoImpl dao;
@@ -29,7 +31,7 @@ public class LoginController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.getRequestDispatcher("/login.jsp").forward(request, response);
+		request.getRequestDispatcher(Constantes.LOGIN).forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -40,11 +42,11 @@ public class LoginController extends HttpServlet {
 		Map<String, String> erro = new HashMap<String, String>();
 
 		if (login == null || login.isEmpty()) {
-			erro.put("login", "Informe o seu login");
+			erro.put("login", Constantes.INFORME_LOGIN);
 		}
 
 		if (senha == null || senha.isEmpty()) {
-			erro.put("senha", "Informe a sua senha");
+			erro.put("senha", Constantes.INFORME_SENHA);
 		}
 		
 		if (erro.isEmpty()) {
@@ -55,15 +57,15 @@ public class LoginController extends HttpServlet {
             if (user != null) {
             	if(user.isAtivo()) {            		
             		request.getSession().setAttribute("user", user.getNome());
-            		RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
+            		RequestDispatcher rd = request.getRequestDispatcher(Constantes.HOME);
             		rd.forward(request, response);
             		return;
             	}else {
-            		erro.put("inativo", "Usuário está desativado");
+            		erro.put("inativo", Constantes.USUÁRIO_ESTÁ_DESATIVADO);
             	}
                 
             } else {
-                erro.put("erro", "Login e ou senha inválido");
+                erro.put("erro", Constantes.LOGIN_E_OU_SENHA_INVÁLIDO);
             }  
             
 			} catch (Exception e) {
@@ -72,7 +74,7 @@ public class LoginController extends HttpServlet {
         }
 		
 		 request.setAttribute("erro", erro);
-	     request.getRequestDispatcher("/login.jsp").forward(request, response);
+	     request.getRequestDispatcher(Constantes.LOGIN).forward(request, response);
 
 	}
 }

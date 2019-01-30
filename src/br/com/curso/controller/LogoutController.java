@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import br.com.curso.dao.UsuarioDaoImpl;
 import br.com.curso.model.Usuario;
+import br.com.curso.utils.Constantes;
 
 /**
  * Servlet implementation class LoginController
@@ -30,8 +31,8 @@ public class LogoutController extends HttpServlet {
 		if(session != null) {
 			session.invalidate();
 		}
-		RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-		request.setAttribute("ateLogo", "Obrigado, até logo!");
+		RequestDispatcher rd = request.getRequestDispatcher(Constantes.LOGIN);
+		request.setAttribute("ateLogo ", Constantes.OBRIGADO);
 		rd.forward(request, response);
 	}
 

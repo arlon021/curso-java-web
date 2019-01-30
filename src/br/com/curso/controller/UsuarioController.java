@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.curso.business.UsuarioBusiness;
 import br.com.curso.model.Usuario;
+import br.com.curso.utils.Constantes;
 
 /**
  * Servlet implementation class Controller
@@ -27,33 +28,25 @@ public class UsuarioController extends HttpServlet {
 		this.business = new UsuarioBusiness();
 	}
 
-	public void init(ServletConfig config) throws ServletException {
-		System.out.println("Iniciando servlet controlador");
-	}
-
-	public void destroy() {
-		System.out.println("Removendo o servlet");
-	}
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String action = request.getParameter("action");
+		String action = request.getParameter(Constantes.ACTION);
 
 		try {
 			switch (action) {
-			case "novo":
+			case Constantes.NOVO:
 				novo(request, response);
 				break;
-			case "delete":
+			case Constantes.DELETE:
 				delete(request, response);
 				break;
-			case "editar":
+			case Constantes.EDITAR:
 				editar(request, response);
 				break;
-			case "list" :
+			case Constantes.LISTAR :
 				list(request, response);
 				break;
-			default:
+			case Constantes.ATIVAR_DESATIVAR:
 				ativar_desativar(request, response);
 				break;
 			}
@@ -65,13 +58,13 @@ public class UsuarioController extends HttpServlet {
 	private void ativar_desativar(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, Exception {
 		
 		Usuario usuario = this.business.ativarDesativar(Long.parseLong(request.getParameter("id")));
-		RequestDispatcher rd = request.getRequestDispatcher("/usuarios/usuarios.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher(Constantes.USUARIOS);
 		request.setAttribute("usuario", usuario);
 		rd.forward(request, response);
 	}
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/usuarios/usuarios.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher(Constantes.USUARIOS);
 		rd.forward(request, response);
 		
 	}
@@ -85,7 +78,7 @@ public class UsuarioController extends HttpServlet {
 	 * @throws IOException
 	 */
 	private void novo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/usuarios/add_usuario.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher(Constantes.ADD_USUARIOS);
 		rd.forward(request, response);
 	}
 
@@ -113,9 +106,9 @@ public class UsuarioController extends HttpServlet {
 			
 		}else {
 			for (int i = 0; i < permissoes.length; i++) {
-				if(permissoes[i].equals("Administrador")) {
+				if(permissoes[i].equals(Constantes.ADMINISTRADOR)) {
 					usuario.setAdministrador(true);
-				} else if (permissoes[i].equals("Visitante")) {
+				} else if (permissoes[i].equals(Constantes.VISITANTE)) {
 					usuario.setVisitante(true);
 				}
 			}
@@ -128,16 +121,16 @@ public class UsuarioController extends HttpServlet {
 		
 		if(id != "") {
 			usuario.setId(Long.parseLong(id));
-			request.setAttribute("editado", " Usuário " + nome + " editado com sucesso");
+			request.setAttribute("editado", Constantes.USUARIO + nome + Constantes.USUARIO_EDITADO);
 		}else {
-			request.setAttribute("cadastro", " Usuário " + nome + " cadastrado com sucesso");			
+			request.setAttribute("cadastro", Constantes.USUARIO + nome + Constantes.USUARIO_SUCESSO);			
 		}
 		try {
 			this.business.save(usuario);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		RequestDispatcher rd = request.getRequestDispatcher("/usuarios/usuarios.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher(Constantes.USUARIOS);
 		rd.forward(request,response);
 
 	}
@@ -152,8 +145,8 @@ public class UsuarioController extends HttpServlet {
 	 */
 	private void delete(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, Exception {
 		this.business.deleteById(Long.parseLong(request.getParameter("id")));
-		RequestDispatcher rd = request.getRequestDispatcher("/usuarios/usuarios.jsp");
-		request.setAttribute("remover", " Usuário removido com sucesso");
+		RequestDispatcher rd = request.getRequestDispatcher(Constantes.USUARIOS);
+		request.setAttribute("remover", Constantes.USUARIO_REMOVIDO);
 		rd.forward(request, response);
 
 	}
@@ -169,7 +162,7 @@ public class UsuarioController extends HttpServlet {
 	private void editar(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, Exception {
 
 		Usuario usuario = this.business.findById(Long.parseLong(request.getParameter("id")));
-		RequestDispatcher rd = request.getRequestDispatcher("/usuarios/add_usuario.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher(Constantes.ADD_USUARIOS);
 		request.setAttribute("usuario", usuario);
 		rd.forward(request, response);
 	}
