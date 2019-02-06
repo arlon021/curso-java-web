@@ -139,10 +139,10 @@
 		        </button>
 		      </div>
 		      <div class="modal-body">
-		        Deseja excluir o contato selecionado ?
+		        <strong>Deseja excluir o contato selecionado ?</strong>
 		      </div>
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
 		        <a id="removerContato" class="btn btn-danger">Deletar</a>
 		      </div>
 		    </div>
